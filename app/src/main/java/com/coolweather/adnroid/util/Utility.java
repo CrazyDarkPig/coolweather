@@ -1,10 +1,13 @@
 package com.coolweather.adnroid.util;
 
 import android.text.TextUtils;
+import android.webkit.WebView;
 
 import com.coolweather.adnroid.db.City;
 import com.coolweather.adnroid.db.County;
 import com.coolweather.adnroid.db.Province;
+import com.coolweather.adnroid.gson.Weather;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,6 +85,19 @@ public class Utility {
             }
         }
         return  false;
+    }
+
+    public  static Weather handleWeatherResponse(String response){
+        try{
+                JSONObject jsonObject=new JSONObject(response);
+                JSONArray   jsonArray=jsonObject.getJSONArray("HeWeather");
+                String weatherContent=jsonArray.getJSONObject(0).toString();
+                return  new Gson().fromJson(weatherContent,Weather.class);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
